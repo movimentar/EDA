@@ -16,7 +16,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## About this document
 
-This is a small example of basic Exploratory Data Analysis (EDA) using R and RStudio.
+This is a small example of basic Exploratory Data Analysis (EDA) using R and RStudio. This code is available in the public repository at https://github.com/movimentar/EDA.
 
 
 ## Initial steps
