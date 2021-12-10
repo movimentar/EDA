@@ -5,6 +5,7 @@ This is a public repository providing an example of basic Exploratory Data Analy
 
 [^EDA]: IBM (2021) Exploratory Data Analysis. Available at: https://www.ibm.com/cloud/learn/exploratory-data-analysis.
 
+We documented the following steps using a RMarkdown document, which you can clone as explore further. This will be just a very basic example for beginners, and there is a plenty of other methods that can be used for a full EDA. Have fun and keep coding!
 
 ## Steps for basic EDA from scratch
 
