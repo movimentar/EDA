@@ -1,0 +1,187 @@
+---
+title: "Example of basic EDA"
+author: "movimentar GmbH - https://www.movimentar.eu"
+date: "12/10/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+![](https://movimentar.eu/wp-content/uploads/2019/08/movimentar_logo_transparent.png)
+<br>
+<br>
+
+## About this document
+
+This is a small example of basic Exploratory Data Analysis (EDA) using R and RStudio.
+
+
+## Initial steps
+
+The first step is to load the required packages. The `tidyverse` (see more at: https://www.tidyverse.org/packages/) and the `DataExplorer` (see more at: https://www.rdocumentation.org/packages/DataExplorer/versions/0.8.2) will be important for this example of basic EDA. We will also use the `readxl` package, that allows us to read Microsoft Excel files. We will also use the package `DT` to display better our data tables (see more at: https://rstudio.github.io/DT/). 
+
+If you do not have them installed yet, you will need to run the following code in the R console. 
+
+```{r package_install, eval=FALSE}
+# Install packages (only required if you did not run this before)
+install.packages("tidyverse")
+install.packages("DataExplorer")
+install.packages("readxl")
+install.packages("DT")
+
+```
+
+If you already have the run the code above before, you can simply load the packages as follows:
+
+```{r package_load}
+# Load pre-installed packages.
+library(readxl)
+library(tidyverse)
+library(DataExplorer)
+library(DT)
+```
+
+## Data sources
+
+For the purpose of this example, we should use some raw dataset in any format you prefer such as CSV (comma-separated values) or XLSX (Microsoft Excel). 
+
+For example, you may download data any free dataset listed at:
+
+- https://r-dir.com/reference/datasets.html or
+
+- https://stat.ethz.ch/R-manual/R-devel/library/datasets/html/00Index.html. 
+
+You may also connect to a remote or local database such as MySQL or MongoDB, if you prefer. R is very flexible in terms of connections to data sources.
+
+
+### World Development Indicators
+
+For this example we will use an Excel table from the World Bank Indicators (see WV.2 at http://wdi.worldbank.org/table). 
+
+For simplification, I first downloaded it manually in Excel (XLS), converted it to XLSX since it was saved as a webpage and R was unable to open it directly. NAs were formatted as ".." and had to be replaced as show in the code below. Additional clean was necessary since the rows 2 and 3 contained metadata, instead of the actual data. Here we are also transforming the country variable to factor and all character data to numeric, as we only have that type in the dataset. 
+
+
+```{r load_data}
+# Load data
+poverty <- read_excel(
+  "WV.2_Global_goals_ending_poverty_and_improving_lives.xlsx", 
+  # Specify format of NA observations
+    na = "..") 
+```
+
+## Cleaning data
+
+The next step is to clean the raw data and make it tidy (see more at: ). It is important to do it in a coded way, as it can affect the results.
+
+```{r clean_data}
+# Clean dataset
+poverty <-  poverty %>% 
+  # Renaming columns without names
+  rename(
+    country = `...1` 
+  ) %>% 
+  # Renaming columns with merged headers
+  rename(
+    male_employment = `Vulnerable employment`,
+    female_employment = `...11` 
+  ) %>%
+  # Remove observations in country with NA
+  filter(
+    !is.na(country)
+  ) %>% 
+  # Adjusting classes of variables 
+  mutate(
+    country = as.factor(country)
+  ) %>% 
+  mutate_if(
+    is.character,
+    as.numeric
+  ) %>% 
+  # Simplify variable names
+  rename(
+    income_share = `Percentage share of income or consumption`,
+    child_malnutrition = `Prevalence of child malnutrition`,
+    maternal_mortality = `Maternal mortality ratio`,
+    u5_mortality = `Under-five mortality rate`,
+    hiv_rate = `Incidence of HIV, ages 15-49 (per 1,000 uninfected population ages 15-49)`,
+    turbeculosis_rate = `Incidence of tuberculosis`,
+    road_mortality = `Mortality caused by road traffic injury`,
+    primary_completion = `Primary completion rate`,
+    labor_productivity = `Labor productivity`
+      
+  )
+```
+
+
+## Inspecting the raw dataset
+
+The code above results in a dataset with `r nrow(poverty)` rows and `r ncol(poverty)` columns. Let us view a basic description of the dataset. 
+
+```{r intro_raw}
+# View basic description of raw data
+plot_intro(poverty)
+
+```
+
+
+```{r view}
+# View dataset
+  poverty %>% 
+  # Using datatable from the DT package to ease interactive visualisation
+  datatable()
+
+```
+The code below helps us checking for missing data. The colours indicate the number of missing data in each variable. Those in red indicate a high number of missing data.
+
+```{r missing}
+plot_missing(poverty)
+```
+Now, we can also check for the histograms and density plots of all continuous variables.
+
+```{r histogram}
+## View histogram of all continuous variables 
+plot_histogram(poverty)
+```
+
+```{r density}
+## View histogram of all continuous variables 
+plot_density(poverty)
+```
+
+
+The plot below shows the correlation among the dataset variables after dropping NAs (required). Here we can see, for example, that female and male employment are highly and positively correlated, while primary completing rates are negatively correlated with the under-5 child mortality. In any case, one always need to be very careful to infer causation from the correlation between variables. For example, under-5 child mortality shows a high positive correlation with male and female employment.   
+
+```{r correlation}
+## View overall correlation heat map
+plot_correlation(
+  na.omit(poverty)
+)
+
+```
+
+Depending on your dataset, you may also benefit to run already from the start the `create_report()` function from the `DataExplorer` package, as show below. This will create a nice HTML report which you can use as a guide for further EDA.
+
+```{r create_report, eval=FALSE}
+# Generate automated report
+DataExplorer::create_report(poverty)
+
+```
+
+# Conclusions
+
+This is just a very basic EDA which we could expand considerably more. The main purpose of this text is to do a quick demonstration of EDA and raise interest among those who are usually working with spreadsheet applications. Digitalisation requires the transition from a user to, at least, a bit of a programmer. EDA can contribute to ease and improve the process of dealing with the massive amounts of data that is arising in the era of digitalisation. This can help us to design and implement better projects, programmes and policies for sustainable development.
+
+## References
+
+- RDocumentation (2021) DataExplorer. Available at: https://www.rdocumentation.org/packages/DataExplorer/versions/0.8.2
+
+- Data Science Heroes (2021) Available at: Exploratory Data Analysis in R (introduction) https://blog.datascienceheroes.com/exploratory-data-analysis-in-r-intro/
+
+- Ellis, Laura (2018) Explore your Dataset in R. Available at:  https://www.r-bloggers.com/2018/11/explore-your-dataset-in-r/
+
+
+
+
