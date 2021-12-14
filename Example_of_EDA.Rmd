@@ -170,6 +170,17 @@ DataExplorer::create_report(poverty)
 
 ```
 
+# Create sample
+
+```{r sample}
+# Sample 
+set.seed(1234)
+
+poverty_sample <- poverty %>% 
+  sample_n(size = 30)
+```
+
+
 # Conclusions
 
 This is just a very basic EDA which we could expand considerably more. The main purpose of this text is to do a quick demonstration of EDA and raise interest among those who are usually working with spreadsheet applications. Digitalisation requires the transition from a user to, at least, a bit of a programmer. EDA can contribute to ease and improve the process of dealing with the massive amounts of data that is arising in the era of digitalisation. This can help us to design and implement better projects, programmes and policies for sustainable development.
