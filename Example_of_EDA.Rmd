@@ -164,7 +164,7 @@ plot_intro(poverty)
   # Ease interactive visualisation
   DT::datatable()
 ```
-The code below helps us checking for missing data. The colours indicate the number of missing data in each variable. Those in red indicate a high number of missing data (e.g. `tuberculosis_rate`).
+The code below helps us checking for missing data. The colours indicate the number of missing data in each variable. The bars and colours indicate the number of missing data (e.g. `hiv_rate` has the highest number of rows with missing data).
 
 ```{r missing}
 plot_missing(poverty)
