@@ -74,7 +74,7 @@ poverty <- read_excel(
 
 ## Cleaning data
 
-The next step is to clean the raw data and make it tidy (see more at: ). It is important to do it in a coded way, as it can affect the results.
+The next step is to clean the raw data and make it tidy (see more at: https://r4ds.had.co.nz/tidy-data.html). It is important to do it in a coded way, as it can affect the results.
 
 ```{r clean_data}
 # Clean dataset
@@ -107,34 +107,58 @@ poverty <-  poverty %>%
     maternal_mortality = `Maternal mortality ratio`,
     u5_mortality = `Under-five mortality rate`,
     hiv_rate = `Incidence of HIV, ages 15-49 (per 1,000 uninfected population ages 15-49)`,
-    turbeculosis_rate = `Incidence of tuberculosis`,
+    tuberculosis_rate = `Incidence of tuberculosis`,
     road_mortality = `Mortality caused by road traffic injury`,
     primary_completion = `Primary completion rate`,
     labor_productivity = `Labor productivity`
-      
-  )
+  ) 
+
+# Remove metadata and rows with all NAs
+poverty <- 
+  poverty[rowSums(is.na(poverty)) != ncol(poverty)-1, ]
+
+```
+
+# Draw a reproducible simple sample
+
+In order to make sure that we did not miss anything when cleaning data, let us draw a simple random sample of the `nrow(poverty)` rows of our clean dataset. The code below shows the steps to draw a reproducible simple random sample of 30 rows from the dataset. In order to make that random sample a reproducible one, we will draw the sample after calling the `set.seed()` function (please see more at: https://movimentar.eu/reproducible-random-sample-generator-in-shinyapps-for-improved-data-and-learning/ and https://r-coder.com/set-seed-r/). 
+
+From the table below, the quality of the sampled data looks good. However, we should look deeper to make sure that all is indeed fine. 
+
+```{r sample}
+# Make the sample a reproducible one
+set.seed(1234)
+# Draw a sample of 30 rows 
+poverty_sample <- poverty %>% 
+  sample_n(size = 30)
+```
+
+```{r view_sample}
+# View sample
+  poverty_sample %>% 
+  # Ease interactive visualisation
+  DT::datatable()
 ```
 
 
-## Inspecting the raw dataset
+## Inspecting the full dataset
 
-The code above results in a dataset with `r nrow(poverty)` rows and `r ncol(poverty)` columns. Let us view a basic description of the dataset. 
+The full, clean dataset has `r nrow(poverty)` rows and `r ncol(poverty)` columns. Let us have a basic description of the dataset. 
 
 ```{r intro_raw}
-# View basic description of raw data
+# View basic description of full data
 plot_intro(poverty)
 
 ```
 
 
 ```{r view}
-# View dataset
+# View full dataset
   poverty %>% 
-  # Using datatable from the DT package to ease interactive visualisation
-  datatable()
-
+  # Ease interactive visualisation
+  DT::datatable()
 ```
-The code below helps us checking for missing data. The colours indicate the number of missing data in each variable. Those in red indicate a high number of missing data.
+The code below helps us checking for missing data. The colours indicate the number of missing data in each variable. Those in red indicate a high number of missing data (e.g. `tuberculosis_rate`).
 
 ```{r missing}
 plot_missing(poverty)
@@ -152,17 +176,18 @@ plot_density(poverty)
 ```
 
 
-The plot below shows the correlation among the dataset variables after dropping NAs (required). Here we can see, for example, that female and male employment are highly and positively correlated, while primary completing rates are negatively correlated with the under-5 child mortality. In any case, one always need to be very careful to infer causation from the correlation between variables. For example, under-5 child mortality shows a high positive correlation with male and female employment.   
+The plot below shows the correlation among the dataset variables after dropping NAs (required). Here we can see, for example, that female and male employment are highly and positively correlated with each other, while primary completing rates are negatively correlated with the under-5 child mortality. In any case, one always need to be very careful to infer causation from the correlation between variables. For example, under-5 child mortality shows a high positive correlation with maternal mortality, but also with male and female employment. That does not  really mean that higher employment rates are causing an increase in under-5 child mortality, for example.  
 
 ```{r correlation}
 ## View overall correlation heat map
-plot_correlation(
-  na.omit(poverty)
-)
-
+poverty %>% 
+  # Drops the variable "country" and observations with NAs (required)
+  select(-country) %>% 
+  na.omit() %>% 
+  plot_correlation()
 ```
 
-Depending on your dataset, you may also benefit to run already from the start the `create_report()` function from the `DataExplorer` package, as show below. This will create a nice HTML report which you can use as a guide for further EDA.
+Depending on your dataset, you may also benefit to run already from the start the `create_report()` function from the `DataExplorer` package, as show below. This will create a nice HTML report which you can use as a guide for further EDA. We are not doing it here as it would generate a separate report.
 
 ```{r create_report, eval=FALSE}
 # Generate automated report
@@ -170,29 +195,31 @@ DataExplorer::create_report(poverty)
 
 ```
 
-# Create sample
-
-```{r sample}
-# Sample 
-set.seed(1234)
-
-poverty_sample <- poverty %>% 
-  sample_n(size = 30)
-```
-
-
 # Conclusions
 
-This is just a very basic EDA which we could expand considerably more. The main purpose of this text is to do a quick demonstration of EDA and raise interest among those who are usually working with spreadsheet applications. Digitalisation requires the transition from a user to, at least, a bit of a programmer. EDA can contribute to ease and improve the process of dealing with the massive amounts of data that is arising in the era of digitalisation. This can help us to design and implement better projects, programmes and policies for sustainable development.
+This is just a very basic EDA which we could expand considerably more. The main purpose of this text was to do a quick demonstration of EDA and raise interest among those who are usually working with spreadsheet applications. Digitalisation requires the transition from a user to, at least, a bit of a programmer. EDA can contribute to ease and improve the process of dealing with the increasing amounts of data that is arising in the era of digitalisation. This can help to design and implement projects, programmes and policies for sustainable development which are oriented by evidence/data and results. 
+
+Visit our website at https://www.movimentar.eu to know more about how we are supporting this process!
 
 ## References
 
-- RDocumentation (2021) DataExplorer. Available at: https://www.rdocumentation.org/packages/DataExplorer/versions/0.8.2
+- Boxuan Cui (2020). DataExplorer: Automate Data Exploration and Treatment. R package version 0.8.2. https://CRAN.R-project.org/package=DataExplorer
 
 - Data Science Heroes (2021) Available at: Exploratory Data Analysis in R (introduction) https://blog.datascienceheroes.com/exploratory-data-analysis-in-r-intro/
 
 - Ellis, Laura (2018) Explore your Dataset in R. Available at:  https://www.r-bloggers.com/2018/11/explore-your-dataset-in-r/
 
+- movimentar(2018) Reproducible random-sample generator in Shinyapps for improved data and learning. Available at: https://movimentar.eu/reproducible-random-sample-generator-in-shinyapps-for-improved-data-and-learning/
 
+- RDocumentation (2021) DataExplorer. Available at: https://www.rdocumentation.org/packages/DataExplorer/versions/0.8.2
 
+- Wickham et al., (2019). Welcome to the tidyverse. Journal of Open Source
+  Software, 4(43), 1686, https://doi.org/10.21105/joss.01686.
+  
+- Wickham, Hadley and Bryan, Jennifer (2019). readxl: Read Excel Files. R package version 1.3.1. https://CRAN.R-project.org/package=readxl.
+
+- Wickham, Hadley and Grolemund, Garrett (2017) R for Data Science. Available at: https://r4ds.had.co.nz/index.html
+
+- Yihui Xie, Joe Cheng and Xianying Tan (2021). DT: A Wrapper of the JavaScript
+  Library 'DataTables'. R package version 0.20. https://CRAN.R-project.org/package=DT.
 
