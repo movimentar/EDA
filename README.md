@@ -1,11 +1,13 @@
 # About this repository
-This is a public repository providing an example of basic Exploratory Data Analysis (EDA) using [R](https://cran.r-project.org/) and [RStudio](https://www.rstudio.com). After loading a dataset, EDA is often the next steps of data analysis. The basic idea of EDA is to quickly analyse and investigate data sets and summarize their main characteristics, often employing data visualization methods. As presented by IBM, EDA helps 
+This is a public repository providing an example of basic Exploratory Data Analysis (EDA) using [R](https://cran.r-project.org/) and [RStudio](https://www.rstudio.com). After loading a dataset, EDA is often the next step of data analysis. The basic idea of EDA is to quickly analyse and investigate data sets and summarize their main characteristics, often employing data visualization methods. As presented by IBM, EDA helps 
 
 > data scientists to discover patterns, spot anomalies, test a hypothesis, or check assumptions. EDA is primarily used to see what data can reveal beyond the formal modeling or  hypothesis testing task and provides a provides a better understanding of data set variables and the relationships between them. It can also help determine if the statistical techniques you are considering for data analysis are appropriate. The main purpose of EDA is to help look at data before making any assumptions. It can help identify obvious errors, as well as better understand patterns within the data, detect outliers or anomalous events, find interesting relations among the variables.[^EDA]
 
 [^EDA]: IBM (2021) Exploratory Data Analysis. Available at: https://www.ibm.com/cloud/learn/exploratory-data-analysis.
 
-We documented the following steps using a RMarkdown document, which you can clone as explore further. This will be just a very basic example for beginners, and there is a plenty of other methods that can be used for a full EDA. Have fun and keep coding!
+We documented the following steps using a RMarkdown document, which you can clone as explore further. We published the example of EDA report produced here in RPubs, which is available at http://movimentar.co/eda_wdi.
+
+This will be just a very basic example for beginners, and there is a plenty of other methods that can be used for a full EDA. Have fun and keep coding!
 
 ## Steps for basic EDA from scratch
 
