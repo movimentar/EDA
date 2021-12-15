@@ -18,7 +18,9 @@ knitr::opts_chunk$set(echo = TRUE)
 
 After loading a dataset, Exploratory Data Analysis (EDA) is often the next step of data analysis. The basic idea of EDA is to quickly analyse and investigate data sets and summarise their main characteristics, often employing data visualisation methods.  
 
-As presented by IBM (2021), EDA helps "data scientists to discover patterns, spot anomalies, test a hypothesis, or check assumptions. EDA is primarily used to see what data can reveal beyond the formal modelling or hypothesis testing task and provides a provides a better understanding of data set variables and the relationships between them. It can also help determine if the statistical techniques you are considering for data analysis are appropriate. The main purpose of EDA is to help look at data before making any assumptions. It can help identify obvious errors, as well as better understand patterns within the data, detect outliers or anomalous events, find interesting relations among the variables".
+As presented by IBM (2021), EDA helps... 
+
+> "...data scientists to discover patterns, spot anomalies, test a hypothesis, or check assumptions. EDA is primarily used to see what data can reveal beyond the formal modelling or hypothesis testing task and provides a provides a better understanding of data set variables and the relationships between them. It can also help determine if the statistical techniques you are considering for data analysis are appropriate. The main purpose of EDA is to help look at data before making any assumptions. It can help identify obvious errors, as well as better understand patterns within the data, detect outliers or anomalous events, find interesting relations among the variables".
 
 We prepared a really simple EDA example with R and RStudio using key World Development Indicators data. This full code is available in the public repository at https://github.com/movimentar/EDA.
 
