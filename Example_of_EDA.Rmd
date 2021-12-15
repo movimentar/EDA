@@ -16,7 +16,11 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## About this document
 
-This is a small example of basic Exploratory Data Analysis (EDA) using R and RStudio. This code is available in the public repository at https://github.com/movimentar/EDA.
+After loading a dataset, Exploratory Data Analysis (EDA) is often the next step of data analysis. The basic idea of EDA is to quickly analyse and investigate data sets and summarise their main characteristics, often employing data visualisation methods.  
+
+As presented by IBM (2021), EDA helps "data scientists to discover patterns, spot anomalies, test a hypothesis, or check assumptions. EDA is primarily used to see what data can reveal beyond the formal modelling or hypothesis testing task and provides a provides a better understanding of data set variables and the relationships between them. It can also help determine if the statistical techniques you are considering for data analysis are appropriate. The main purpose of EDA is to help look at data before making any assumptions. It can help identify obvious errors, as well as better understand patterns within the data, detect outliers or anomalous events, find interesting relations among the variables".
+
+We prepared a really simple EDA example with R and RStudio using key World Development Indicators data. This full code is available in the public repository at https://github.com/movimentar/EDA.
 
 
 ## Initial steps
@@ -208,6 +212,8 @@ Visit our website at https://www.movimentar.eu to know more about how we are sup
 - Data Science Heroes (2021) Available at: Exploratory Data Analysis in R (introduction) https://blog.datascienceheroes.com/exploratory-data-analysis-in-r-intro/
 
 - Ellis, Laura (2018) Explore your Dataset in R. Available at:  https://www.r-bloggers.com/2018/11/explore-your-dataset-in-r/
+
+- IBM (2021) Exploratory Data Analysis. Available at: https://www.ibm.com/cloud/learn/exploratory-data-analysis. 
 
 - movimentar(2018) Reproducible random-sample generator in Shinyapps for improved data and learning. Available at: https://movimentar.eu/reproducible-random-sample-generator-in-shinyapps-for-improved-data-and-learning/
 
